@@ -74,7 +74,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />, document.body);
+ReactDOM.createRoot(<App />, document.body);
 ```
 
 If you want to have your component lazyloaded by default, try this handy decorator:

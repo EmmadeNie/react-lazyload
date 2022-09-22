@@ -30,13 +30,13 @@ afterEach(() => {
 describe('Debounce', () => {
   it('should debounce when `debounce` is set', (done) => {
     const windowHeight = window.innerHeight + 20;
-    ReactDOM.render(
+    ReactDOM.createRoot(
       <div>
         <LazyLoad height={windowHeight} debounce><Test height={windowHeight} /></LazyLoad>
         <LazyLoad height={windowHeight} debounce><Test height={windowHeight} /></LazyLoad>
         <LazyLoad height={windowHeight} debounce><Test height={windowHeight} /></LazyLoad>
       </div>
-    , div);
+      , div);
 
     window.scrollTo(0, 9999);
 

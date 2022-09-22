@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions: 0 */
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import LazyLoad, { lazyload } from '../../src/index';
 import spies from 'chai-spies';
 import Test from '../Test.component';
@@ -31,17 +31,17 @@ afterEach(() => {
 describe('LazyLoad', () => {
   describe('Basic setup', () => {
     it('should render passed children', () => {
-      ReactDOM.render(<LazyLoad><span className="test"></span></LazyLoad>, div);
+      ReactDOM.createRoot(<LazyLoad><span className="test"></span></LazyLoad>, div);
       expect(document.querySelector('.test')).to.exist;
     });
 
     it('should render `lazyload-placeholder` when children not visible', () => {
-      ReactDOM.render(
+      ReactDOM.createRoot(
         <div>
           <LazyLoad height={9999}><span className="something">123</span></LazyLoad>
           <LazyLoad height={9999}><span className="treasure">123</span></LazyLoad>
         </div>
-      , div);
+        , div);
 
       expect(document.querySelector('.something')).to.exist;
       expect(document.querySelector('.lazyload-placeholder')).to.exist;
@@ -49,22 +49,22 @@ describe('LazyLoad', () => {
     });
 
     it('should NOT update when invisble', (done) => {
-      ReactDOM.render(
+      ReactDOM.createRoot(
         <div>
           <LazyLoad height={9999}><Test height={9999} id={1} /></LazyLoad>
           <LazyLoad height={9999}><Test height={9999} id={2} /></LazyLoad>
         </div>
-      , div);
+        , div);
 
       expect(document.querySelector('.test1 .times').textContent).to.equal('1');
       expect(document.querySelector('.test2')).to.not.exist;
 
-      ReactDOM.render(
+      ReactDOM.createRoot(
         <div>
           <LazyLoad height={9999}><Test height={9999} id={1} /></LazyLoad>
           <LazyLoad height={9999}><Test height={9999} id={2} /></LazyLoad>
         </div>
-      , div);
+        , div);
 
       expect(document.querySelector('.test1 .times').textContent).to.equal('2');
       expect(document.querySelector('.test2')).to.not.exist;
@@ -74,12 +74,12 @@ describe('LazyLoad', () => {
       setTimeout(() => {
         expect(document.querySelector('.test2 .times').textContent).to.equal('1');
 
-        ReactDOM.render(
+        ReactDOM.createRoot(
           <div>
             <LazyLoad height={9999}><Test height={9999} id={1} /></LazyLoad>
             <LazyLoad height={9999}><Test height={9999} id={2} /></LazyLoad>
           </div>
-        , div);
+          , div);
 
         expect(document.querySelector('.test1 .times').textContent).to.equal('2');
         expect(document.querySelector('.test2 .times').textContent).to.equal('2');
@@ -88,29 +88,29 @@ describe('LazyLoad', () => {
     });
 
     it('should NOT controlled by LazyLoad when `once` and visible', (done) => {
-      ReactDOM.render(
+      ReactDOM.createRoot(
         <div>
           <LazyLoad height={9999} once><Test height={9999} id={1} /></LazyLoad>
           <LazyLoad height={9999} once><Test height={9999} id={2} /></LazyLoad>
         </div>
-      , div);
+        , div);
 
-      ReactDOM.render(
+      ReactDOM.createRoot(
         <div>
           <LazyLoad height={9999} once><Test height={9999} id={1} /></LazyLoad>
           <LazyLoad height={9999} once><Test height={9999} id={2} /></LazyLoad>
         </div>
-      , div);
+        , div);
 
       window.scrollTo(0, 99999);
 
       setTimeout(() => {
-        ReactDOM.render(
+        ReactDOM.createRoot(
           <div>
             <LazyLoad height={9999} once><Test height={9999} id={1} /></LazyLoad>
             <LazyLoad height={9999} once><Test height={9999} id={2} /></LazyLoad>
           </div>
-        , div);
+          , div);
 
         // Differnce between the test above
         expect(document.querySelector('.test1 .times').textContent).to.equal('3');
@@ -119,7 +119,7 @@ describe('LazyLoad', () => {
     });
 
     it('should render `placeholder` if provided', () => {
-      ReactDOM.render(
+      ReactDOM.createRoot(
         <div>
           <LazyLoad height={9999} placeholder={<div className="my-placeholder" style={{ height: '9999px' }}></div>}>
             <Test className="test" />
@@ -132,7 +132,7 @@ describe('LazyLoad', () => {
       expect(document.querySelector('.my-placeholder')).to.exist;
     });
     it('should render `placeholder` and `wrapper` elements with custom `classNamePrefix` when provided', () => {
-      ReactDOM.render(
+      ReactDOM.createRoot(
         <div>
           <LazyLoad height={9999} classNamePrefix="custom-lazyload">
             <span className="something">123</span>
@@ -146,26 +146,26 @@ describe('LazyLoad', () => {
       expect(document.querySelector('.custom-lazyload-placeholder')).to.exist;
     });
     it('should render wrapper with `style` when provided', () => {
-      ReactDOM.render(
+      ReactDOM.createRoot(
         <div>
-          <LazyLoad height={9999} classNamePrefix="custom-lazyload" style={{height: 200}}>
+          <LazyLoad height={9999} classNamePrefix="custom-lazyload" style={{ height: 200 }}>
             <span>123</span>
           </LazyLoad>
         </div>, div);
       console.log(div.innerHTML);
       expect(document.querySelector('.custom-lazyload-wrapper').getBoundingClientRect().height).to.equal(200);
     })
- });
+  });
 
   describe('Checking visibility', () => {
     it('should consider visible when top edge is visible', () => {
       const windowHeight = window.innerHeight;
-      ReactDOM.render(
+      ReactDOM.createRoot(
         <div>
           <LazyLoad height={windowHeight - 1}><span className="something">123</span></LazyLoad>
           <LazyLoad height={1}><span className="treasure">123</span></LazyLoad>
         </div>
-      , div);
+        , div);
 
       expect(document.querySelector('.something')).to.exist;
       expect(document.querySelector('.lazyload-placeholder')).to.not.exist;
@@ -174,12 +174,12 @@ describe('LazyLoad', () => {
 
     it('should render children when scrolled visible', (done) => {
       const windowHeight = window.innerHeight + 20;
-      ReactDOM.render(
+      ReactDOM.createRoot(
         <div>
           <LazyLoad height={windowHeight}><Test className="something" height={windowHeight}>123</Test></LazyLoad>
           <LazyLoad height={windowHeight}><Test className="treasure" height={windowHeight}>123</Test></LazyLoad>
         </div>
-      , div);
+        , div);
 
       expect(document.querySelector('.lazyload-placeholder')).to.exist;
       window.scrollTo(0, 50);
@@ -192,13 +192,13 @@ describe('LazyLoad', () => {
     });
 
     it('should work inside overflow container', (done) => {
-      ReactDOM.render(
+      ReactDOM.createRoot(
         <div style={{ height: '300px', overflow: 'auto' }} className="container">
           <LazyLoad height={200} overflow><div style={{ height: '200px' }} className="something">123</div></LazyLoad>
           <LazyLoad height={200} overflow><div style={{ height: '200px' }} className="something">123</div></LazyLoad>
           <LazyLoad height={200} overflow><div style={{ height: '200px' }} className="treasure">123</div></LazyLoad>
         </div>
-      , div);
+        , div);
 
       const container = document.querySelector('.container');
       expect(container.querySelector('.something')).to.exist;
@@ -230,13 +230,13 @@ describe('LazyLoad', () => {
         }
       }
 
-      ReactDOM.render(
+      ReactDOM.createRoot(
         <div>
           <Test>1</Test>
           <Test>2</Test>
           <Test>3</Test>
         </div>
-      , div);
+        , div);
 
       expect(document.querySelectorAll('.test').length).to.equal(1);
       expect(document.querySelector('.lazyload-placeholder')).to.exist;
@@ -247,7 +247,7 @@ describe('LazyLoad', () => {
     // https://github.com/jasonslyvia/react-lazyload/issues/71
     // http://stackoverflow.com/a/6433475/761124
     it('should not detect a overflow container when only one of the scroll property is auto\/scroll', () => {
-      ReactDOM.render(
+      ReactDOM.createRoot(
         <div
           id="realOverflowContainer"
           style={{ height: '600px', overflow: 'auto' }}
@@ -262,7 +262,7 @@ describe('LazyLoad', () => {
             <LazyLoad height={200} overflow><div style={{ height: '200px' }} className="treasure">123</div></LazyLoad>
           </div>
         </div>
-      , div);
+        , div);
 
       const container = document.querySelector('.container');
       expect(container.querySelector('.something')).to.exist;
@@ -277,7 +277,7 @@ describe('LazyLoad', () => {
       const $html = $body.parentNode;
       const $els = [$body, $html, div];
       setStyle('100%');
-      ReactDOM.render(
+      ReactDOM.createRoot(
         <div
           id="scroll-container"
           style={{ height: '100%', width: '100%', overflow: 'auto' }}>
@@ -294,7 +294,7 @@ describe('LazyLoad', () => {
             </LazyLoad>
           </div>
         </div>
-      , div);
+        , div);
       const $container = document.querySelector('#scroll-container');
       event.on($container, 'scroll', scroller);
       expect($container.querySelector('.lazyload-placeholder')).to.exist;

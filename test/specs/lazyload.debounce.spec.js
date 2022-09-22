@@ -30,13 +30,13 @@ afterEach(() => {
 describe('Throttle', () => {
   it('should throttle scroll event by default', (done) => {
     const windowHeight = window.innerHeight + 1;
-    ReactDOM.render(
+    ReactDOM.createRoot(
       <div>
         <LazyLoad height={windowHeight}><Test height={windowHeight} /></LazyLoad>
         <LazyLoad height={windowHeight}><Test height={windowHeight} /></LazyLoad>
         <LazyLoad height={windowHeight}><Test height={windowHeight} /></LazyLoad>
       </div>
-    , div);
+      , div);
 
     window.scrollTo(0, 10);
 

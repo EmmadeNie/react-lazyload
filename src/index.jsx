@@ -191,6 +191,7 @@ const purgePending = function purgePending() {
 };
 
 const lazyLoadHandler = () => {
+  console.log("lazyLoadHandler")
   for (let i = 0; i < listeners.length; ++i) {
     const listener = listeners[i];
     checkVisible(listener);
