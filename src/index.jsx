@@ -29,7 +29,7 @@ try {
     }
   });
   window.addEventListener('test', null, opts);
-} catch (e) {}
+} catch (e) { }
 // if they are supported, setup the optional params
 // IMPORTANT: FALSE doubles as the default CAPTURE value!
 const passiveEvent = passiveEventSupported
@@ -190,14 +190,24 @@ const purgePending = function purgePending() {
   pending = [];
 };
 
+// const lazyLoadHandler = () => {
+//   console.log("lazyLoadHandler")
+//   for (let i = 0; i < listeners.length; ++i) {
+//     const listener = listeners[i];
+//     checkVisible(listener);
+//   }
+//   // Remove `once` component in listeners
+//   purgePending();
+// };
+
 const lazyLoadHandler = () => {
   console.log("lazyLoadHandler")
-  for (let i = 0; i < listeners.length; ++i) {
-    const listener = listeners[i];
-    checkVisible(listener);
-  }
-  // Remove `once` component in listeners
-  purgePending();
+  // for (let i = 0; i < listeners.length; ++i) {
+  //   const listener = listeners[i];
+  //   checkVisible(listener);
+  // }
+  // // Remove `once` component in listeners
+  // purgePending();
 };
 
 /**
