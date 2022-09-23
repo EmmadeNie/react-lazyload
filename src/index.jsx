@@ -190,24 +190,14 @@ const purgePending = function purgePending() {
   pending = [];
 };
 
-// const lazyLoadHandler = () => {
-//   console.log("lazyLoadHandler")
-//   for (let i = 0; i < listeners.length; ++i) {
-//     const listener = listeners[i];
-//     checkVisible(listener);
-//   }
-//   // Remove `once` component in listeners
-//   purgePending();
-// };
-
 const lazyLoadHandler = () => {
   console.log("lazyLoadHandler")
-  // for (let i = 0; i < listeners.length; ++i) {
-  //   const listener = listeners[i];
-  //   checkVisible(listener);
-  // }
-  // // Remove `once` component in listeners
-  // purgePending();
+  for (let i = 0; i < listeners.length; ++i) {
+    const listener = listeners[i];
+    checkVisible(listener);
+  }
+  // Remove `once` component in listeners
+  purgePending();
 };
 
 /**
